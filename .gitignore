@@ -1,0 +1,18 @@
+# 1. Ignorar arquivos inúteis que o Python cria sozinho
+__pycache__/
+*.pyc
+*.pyo
+
+# 2. Ignorar o Ambiente Virtual do Python (se você tiver um)
+.venv/
+venv/
+env/
+
+# 3. Ignorar a pasta GIGANTE de dependências do Vue.js
+# (O próprio Vue já ignora, mas colocamos aqui por garantia dupla)
+node_modules/
+meu-detector-insetos/node_modules/
+
+# 4. Ignorar arquivos de sistema operacional
+.DS_Store
+Thumbs.db
