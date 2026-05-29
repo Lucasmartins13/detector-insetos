@@ -109,7 +109,7 @@ const uploadImage = async () => {
   formData.append('file', selectedFile.value);
 
   try {
-    const response = await axios.post('http://127.0.0.1:5555/detectar', formData);
+    const response = await axios.post('/detectar', formData);
     resultado.value = response.data;
   } catch (error) {
     alert("Erro ao conectar com a API Python.");

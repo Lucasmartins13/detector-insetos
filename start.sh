@@ -14,6 +14,10 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
+echo "📦 Preparando o frontend (npm install)..."
+cd "$FRONTEND_DIR"
+npm install
+
 echo "🚀 Subindo FastAPI na porta $API_PORT..."
 cd "$ROOT_DIR"
 uvicorn main:app --host 0.0.0.0 --port "$API_PORT" &
