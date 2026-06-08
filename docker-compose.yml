@@ -1,0 +1,7 @@
+services:
+  detector-insetos:
+    build: .
+    container_name: detector-insetos
+    ports:
+      - "5555:5555"
+    restart: unless-stopped

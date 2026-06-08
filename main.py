@@ -1,7 +1,9 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from ultralytics import YOLO
 import io
+import os
 import base64
 from PIL import Image
 
@@ -30,7 +32,7 @@ except Exception as e:
     print(f"❌ ERRO AO CARREGAR O MODELO: {e}")
 
 
-@app.get("/")
+@app.get("/health")
 async def status():
     info = {
         "status": "ok" if model is not None else "erro",
@@ -94,3 +96,14 @@ async def detectar(file: UploadFile = File(...)):
     except Exception as e:
         print(f"❌ ERRO DURANTE A ANÁLISE: {e}")
         return {"erro": str(e)}
+
+
+# Serve a interface web (frontend Vue já compilado) na raiz, se existir.
+# No Docker a pasta "static" é gerada a partir do build do Vite.
+# As rotas da API (/health, /detectar) têm prioridade pois foram definidas acima.
+STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+if os.path.isdir(STATIC_DIR):
+    print(f"🌐 Servindo a interface web a partir de: {STATIC_DIR}")
+    app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="static")
+else:
+    print("ℹ️  Pasta 'static' não encontrada — rodando apenas a API (modo dev).")
